@@ -6,24 +6,39 @@ export type UserListItem = { key: string } & Omit<
     "address" | "company" | "website"
 > & { zipcode?: string };
 
-const initialState: UserListItem[] = [];
+export type FilterFieldType = "name" | "email" | "phone";
+
+type UserSliceInitialState = {
+    filterField: FilterFieldType;
+    filterValue: string;
+    selectedRows: React.Key[];
+};
+
+const initialState: UserSliceInitialState = {
+    filterField: "name",
+    filterValue: "",
+    selectedRows: [],
+};
 
 export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUserList: (state, action: PayloadAction<UserListItem[]>) => {
-            return action.payload;
+        setFilterField: (
+            state,
+            action: PayloadAction<FilterFieldType>
+        ) => {
+            state.filterField = action.payload;
         },
-        addUser: (state, action: PayloadAction<UserListItem>) => {
-            return [...state, action.payload];
+        setFilterValue: (state, action: PayloadAction<string>) => {
+            state.filterValue = action.payload.toLocaleLowerCase();
         },
-        deleteUser: (state, action: PayloadAction<React.Key[]>) => {
-            return state.filter(({ key }) => !action.payload.includes(key));
+        setSelectedRows: (state, action: PayloadAction<React.Key[]>) => {
+            state.selectedRows = action.payload;
         },
     },
 });
 
-
-export const { setUserList, addUser, deleteUser } = userSlice.actions;
+export const { setFilterField, setFilterValue, setSelectedRows } =
+    userSlice.actions;
 export default userSlice.reducer;

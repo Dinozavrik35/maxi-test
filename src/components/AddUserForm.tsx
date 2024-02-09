@@ -1,36 +1,41 @@
-import { FC } from "react";
-import { Form, Input, FormInstance } from "antd";
+import { FC, useEffect, useLayoutEffect, useState } from "react";
+import { Form, Input } from "antd";
 import { MaskedInput } from "antd-mask-input";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { UserListItem, addUser } from "../store/slices/userSlice";
+import { FormInstance } from "antd/lib";
+import { useAppDispatch } from "../hooks/reduxHooks";
+import { UserListItem } from "../store/slices/userSlice";
+import { addUser, useGetUserListQuery } from "../services/api/userApi";
 
-
-const AddUserForm: FC<{ form?: FormInstance }> = ({ form }) => {
+const AddUserForm: FC<{ form: FormInstance }> = ({ form }) => {
+    const { data: userList = [] } = useGetUserListQuery();
     const dispatch = useAppDispatch();
-    const lastUserId = useAppSelector((state) => state.user[state.user.length - 1].id);
 
-    const onFinish = (newUser: UserListItem) => {
-        newUser.id = lastUserId + 1;
+    const addUserFormSubmit = (newUser: UserListItem) => {
+        newUser.id = userList[userList.length - 1]
+            ? userList[userList.length - 1].id + 1
+            : 0;
         newUser.key = String(newUser.id);
         dispatch(addUser(newUser));
-        form?.resetFields();
+        form.resetFields();
     };
-
-    const onFinishFailed = () => {};
 
     return (
         <Form
             form={form}
-            name="basic"
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
+            name="addUser"
             autoComplete="off"
             layout="vertical"
+            onFinish={addUserFormSubmit}
         >
             <Form.Item
                 label="Name"
                 name="name"
-                rules={[{ required: true, message: "Please input your name!" }]}
+                rules={[
+                    {
+                        required: true,
+                        message: "Please input your name!",
+                    },
+                ]}
             >
                 <Input />
             </Form.Item>
@@ -39,7 +44,10 @@ const AddUserForm: FC<{ form?: FormInstance }> = ({ form }) => {
                 label="Username"
                 name="username"
                 rules={[
-                    { required: true, message: "Please input your username!" },
+                    {
+                        required: true,
+                        message: "Please input your username!",
+                    },
                 ]}
             >
                 <Input />
@@ -51,11 +59,11 @@ const AddUserForm: FC<{ form?: FormInstance }> = ({ form }) => {
                 rules={[
                     {
                         type: "email",
-                        message: "The input is not valid E-mail!",
+                        message: "The input is not valid e-mail!",
                     },
                     {
                         required: true,
-                        message: "Please input your email!",
+                        message: "Please input your e-mail!",
                     },
                 ]}
             >
@@ -80,7 +88,7 @@ const AddUserForm: FC<{ form?: FormInstance }> = ({ form }) => {
             </Form.Item>
 
             <Form.Item label="Zipcode" name="zipcode">
-                <Input />
+                <Input type="number" />
             </Form.Item>
         </Form>
     );
