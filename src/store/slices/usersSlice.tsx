@@ -1,10 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserDTO } from "../../models/UserDTO";
 
-export type UserListItem = { key: string } & Omit<
-    UserDTO,
-    "address" | "company" | "website"
-> & { zipcode?: string };
 
 export type FilterFieldType = "name" | "email" | "phone";
 
@@ -20,18 +15,17 @@ const initialState: UserSliceInitialState = {
     selectedRows: [],
 };
 
-export const userSlice = createSlice({
-    name: "user",
+export const usersSlice = createSlice({
+    name: "users",
     initialState,
     reducers: {
-        setFilterField: (
-            state,
-            action: PayloadAction<FilterFieldType>
-        ) => {
+        setFilterField: (state, action: PayloadAction<FilterFieldType>) => {
             state.filterField = action.payload;
         },
         setFilterValue: (state, action: PayloadAction<string>) => {
-            state.filterValue = action.payload.toLocaleLowerCase();
+            state.filterValue = action.payload
+                .toLocaleLowerCase()
+                .replace(/[_()+.-]/g, "");
         },
         setSelectedRows: (state, action: PayloadAction<React.Key[]>) => {
             state.selectedRows = action.payload;
@@ -39,6 +33,7 @@ export const userSlice = createSlice({
     },
 });
 
+
 export const { setFilterField, setFilterValue, setSelectedRows } =
-    userSlice.actions;
-export default userSlice.reducer;
+    usersSlice.actions;
+export default usersSlice.reducer;

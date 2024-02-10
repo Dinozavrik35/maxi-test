@@ -1,9 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getRandomColor } from "../../utils/getRandomColor";
 import { UserDTO } from "../../models/UserDTO";
-import { UserListItem } from "../../store/slices/userSlice";
+
+
+export type UserListItem = { key: string; color: string } & Omit<
+    UserDTO,
+    "address" | "company" | "website"
+> & { zipcode?: string };
 
 const baseUrl =
     process.env.REACT_APP_API_URL || "http://jsonplaceholder.typicode.com/";
+
 
 export const userApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
@@ -15,6 +22,7 @@ export const userApi = createApi({
                 response.forEach((item) => {
                     modifiedResponse.push({
                         key: item.id.toString(),
+                        color: getRandomColor(),
                         id: item.id,
                         name: item.name,
                         username: item.username,
@@ -29,18 +37,32 @@ export const userApi = createApi({
     }),
 });
 
+
 // функции для работы с кэшем запроса getUserList
 
 export const addUser = (newUser: UserListItem) => {
-  return userApi.util.updateQueryData("getUserList", undefined, (userList) => {
-      userList.push(newUser);
-  });
+    return userApi.util.updateQueryData(
+        "getUserList",
+        undefined,
+        (userList) => {
+            newUser.id = userList[userList.length - 1]
+                ? userList[userList.length - 1].id + 1
+                : 1;
+            newUser.key = String(newUser.id);
+            newUser.color = getRandomColor();
+            userList.push(newUser);
+        }
+    );
 };
 
 export const deleteUsers = (selectedRows: React.Key[]) => {
-    return userApi.util.updateQueryData("getUserList", undefined, (userList) => {
-        return userList.filter(({ key }) => !selectedRows.includes(key));
-    });
+    return userApi.util.updateQueryData(
+        "getUserList",
+        undefined,
+        (userList) => {
+            return userList.filter(({ key }) => !selectedRows.includes(key));
+        }
+    );
 };
 
 export const { useGetUserListQuery } = userApi;
