@@ -5,7 +5,7 @@
 - Redux + RTK Query
 - Ant Design
 - Styled Components
-- Jest
+- Jest + React Testing Library
 
 ### Установка и  запуск
 Склонируйте репозиторий. Для запуска должны быть установлены node и npm.
