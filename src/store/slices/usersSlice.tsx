@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { noLettersRegex } from "../../constants/regex";
 
 
 export type FilterFieldType = "name" | "email" | "phone";
@@ -15,17 +16,26 @@ const initialState: UserSliceInitialState = {
     selectedRows: [],
 };
 
+
 export const usersSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
         setFilterField: (state, action: PayloadAction<FilterFieldType>) => {
+            if (state.filterValue && state.selectedRows) {
+                state.selectedRows = [];
+            }
+            if (
+                action.payload === "phone" &&
+                !noLettersRegex.test(state.filterValue)
+            ) {
+                state.filterValue = "";
+            }
             state.filterField = action.payload;
         },
         setFilterValue: (state, action: PayloadAction<string>) => {
-            state.filterValue = action.payload
-                .toLocaleLowerCase()
-                .replace(/[_()+.-]/g, "");
+            if (state.selectedRows) state.selectedRows = [];
+            state.filterValue = action.payload;
         },
         setSelectedRows: (state, action: PayloadAction<React.Key[]>) => {
             state.selectedRows = action.payload;
