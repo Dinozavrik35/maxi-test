@@ -1,11 +1,10 @@
 import { FC } from "react";
-import UserActionBar from "../components/users/UserActionBar";
-import UserList from "../components/users/UserList";
+import UserList from "../components/users/UserList/UserList";
 
 const Users: FC = () => {
     return (
         <>
-            <UserActionBar />
+            <h1>Users</h1>
             <UserList />
         </>
     );

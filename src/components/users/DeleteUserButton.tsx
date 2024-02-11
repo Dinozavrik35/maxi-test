@@ -15,7 +15,7 @@ const DeleteUserButton: FC = () => {
     const handleDelete = () => {
         dispatch(deleteUsers(selectedRows));
         dispatch(setSelectedRows([]));
-        notification['success']({
+        notification["success"]({
             message: "Deleted successfully",
             duration: 3,
         });

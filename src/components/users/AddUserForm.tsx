@@ -4,6 +4,7 @@ import { MaskedInput } from "antd-mask-input";
 import { FormInstance } from "antd/lib";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { UserListItem, addUser } from "../../services/api/userApi";
+import { phoneRegex, zipcodeRegex } from "../../constants/regex";
 
 
 const AddUserForm: FC<{ form: FormInstance }> = ({ form }) => {
@@ -86,7 +87,7 @@ const AddUserForm: FC<{ form: FormInstance }> = ({ form }) => {
                         message: "Please input your phone!",
                     },
                     {
-                        pattern: new RegExp(/^\+7\s\d{3}\s\d{3}-\d{2}-\d{2}$/g),
+                        pattern: phoneRegex,
                         message: "The input is not valid phone!",
                     },
                 ]}
@@ -105,7 +106,7 @@ const AddUserForm: FC<{ form: FormInstance }> = ({ form }) => {
                     },
                 ]}
             >
-                <MaskedInput mask={/^\d+-?\d*$/} />
+                <MaskedInput mask={zipcodeRegex} />
             </Form.Item>
         </Form>
     );

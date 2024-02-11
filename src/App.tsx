@@ -15,6 +15,10 @@ const GlobalStyles = createGlobalStyle`
     overflow-x: hidden;
   }
 
+  h1 {
+    padding: 10px 16px 0;
+  }
+
   .ant-notification-notice-message {
     margin-bottom: 0 !important;
   }

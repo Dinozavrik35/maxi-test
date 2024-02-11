@@ -3,11 +3,12 @@ import { App, Button, Form, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import AddUserForm from "./AddUserForm";
 
-const AddUserButton: FC = memo(() => {
+
+const AddUserButton: FC<{ disabled: boolean }> = memo(({ disabled }) => {
     const [form] = Form.useForm();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const addButtonRef = useRef(null);
     const { notification } = App.useApp();
+    const addButtonRef = useRef(null);
 
     const showModal = () => setIsModalOpen(true);
     const handleModalCancel = () => setIsModalOpen(false);
@@ -40,7 +41,8 @@ const AddUserButton: FC = memo(() => {
         return () => {
             window.removeEventListener("keyup", handleEnterPress);
         };
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isModalOpen]);
 
     return (
         <>
@@ -58,11 +60,13 @@ const AddUserButton: FC = memo(() => {
                 type="primary"
                 onClick={showModal}
                 icon={<PlusOutlined />}
+                disabled={disabled}
             >
                 Add user
             </Button>
         </>
     );
 });
+
 
 export default AddUserButton;
