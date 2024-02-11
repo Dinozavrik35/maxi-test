@@ -1,6 +1,6 @@
 import { FC, useRef } from "react";
 import styled from "styled-components";
-import { Input, InputRef, Select, Space } from "antd";
+import { InputRef, Select, Space } from "antd";
 import { FilterTwoTone } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
@@ -10,6 +10,9 @@ import {
 } from "../../store/slices/usersSlice";
 import AddUserButton from "./AddUserButton";
 import DeleteUserButton from "./DeleteUserButton";
+import { MaskedInput } from "antd-mask-input";
+import { anySybmolRegex, noLettersRegex } from "../../constants/regex";
+
 
 const StyledUserActionBar = styled.div`
     display: flex;
@@ -39,10 +42,11 @@ const StyledUserActionBar = styled.div`
     }
 `;
 
-const UserActionBar: FC = () => {
+
+const UserActionBar: FC<{ disabled: boolean }> = ({disabled}) => {
     const dispatch = useAppDispatch();
     const inputRef = useRef<InputRef>(null);
-    const { selectedRows, filterField } = useAppSelector(
+    const { selectedRows, filterField, filterValue } = useAppSelector(
         (state) => state.users
     );
 
@@ -60,6 +64,7 @@ const UserActionBar: FC = () => {
             <Select
                 onChange={handleFilterSelect}
                 value={filterField}
+                disabled={disabled}
                 options={[
                     { value: "name", label: <span>Name</span> },
                     { value: "email", label: <span>Email</span> },
@@ -71,15 +76,18 @@ const UserActionBar: FC = () => {
 
     return (
         <StyledUserActionBar>
-            <Input
+            <MaskedInput
                 name="filterValue"
+                value={filterValue}
                 onChange={handleFilterInput}
                 addonBefore={FilterSelect}
                 placeholder={`Input ${filterField} to filter`}
                 ref={inputRef}
+                disabled={disabled}
+                mask={filterField === "phone" ? noLettersRegex : anySybmolRegex}
             />
             <Space>
-                <AddUserButton />
+                <AddUserButton disabled={disabled} />
                 {selectedRows.length > 0 && <DeleteUserButton />}
             </Space>
         </StyledUserActionBar>
