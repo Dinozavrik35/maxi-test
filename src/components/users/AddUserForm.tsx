@@ -61,17 +61,17 @@ const AddUserForm: FC<{ form: FormInstance }> = ({ form }) => {
             </Form.Item>
 
             <Form.Item
-                label="E-mail"
+                label="Email"
                 name="email"
                 validateTrigger="onBlur"
                 rules={[
                     {
                         type: "email",
-                        message: "The input is not valid e-mail!",
+                        message: "The input is not valid email!",
                     },
                     {
                         required: true,
-                        message: "Please input your e-mail!",
+                        message: "Please input your email!",
                     },
                 ]}
             >
