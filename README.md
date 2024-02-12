@@ -1,5 +1,6 @@
 # Maxi Test
 Приложение для управления списком пользователей
+Развёрнутое приложение: https://dinozavrik35.github.io/maxi-test/
 
 ### Технологии
 - TypeScript
