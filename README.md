@@ -1,15 +1,15 @@
 # Maxi Test
 Приложение для управления списком пользователей
+
 ### Технологии
 - TypeScript
 - Redux + RTK Query
 - Ant Design
 - Styled Components
-- Jest + React Testing Library
+- Jest + React Testing Library + MSW
 
 ### Установка и  запуск
 Склонируйте репозиторий. Для запуска должны быть установлены node и npm.
-
 
 #### Установка
 
