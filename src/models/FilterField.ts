@@ -1,0 +1,1 @@
+export type FilterField = "name" | "email" | "phone";

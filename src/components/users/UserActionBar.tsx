@@ -1,17 +1,17 @@
 import { FC, useRef } from "react";
 import styled from "styled-components";
+import { MaskedInput } from "antd-mask-input";
 import { InputRef, Select, Space } from "antd";
 import { FilterTwoTone } from "@ant-design/icons";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
-    FilterFieldType,
     setFilterField,
     setFilterValue,
 } from "../../store/slices/usersSlice";
 import AddUserButton from "./AddUserButton";
 import DeleteUserButton from "./DeleteUserButton";
-import { MaskedInput } from "antd-mask-input";
+import { FilterField } from "../../models/FilterField";
 import { anySybmolRegex, noLettersRegex } from "../../constants/regex";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 
 
 const StyledUserActionBar = styled.div`
@@ -53,7 +53,7 @@ const UserActionBar: FC<{ disabled: boolean }> = ({disabled}) => {
     const handleFilterInput = (e: React.ChangeEvent<HTMLInputElement>) =>
         dispatch(setFilterValue(e.target.value));
 
-    const handleFilterSelect = (newFilterField: FilterFieldType) => {
+    const handleFilterSelect = (newFilterField: FilterField) => {
         dispatch(setFilterField(newFilterField));
         inputRef.current?.focus();
     };

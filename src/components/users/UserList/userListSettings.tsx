@@ -1,6 +1,6 @@
 import { TableColumnsType } from "antd";
-import { UserListItem } from "../../../services/api/userApi";
 import { StyledImagePlaceholder } from "./userListStyles";
+import { UserListItem } from "../../../models/UserListItem";
 
 
 export const columns: TableColumnsType<UserListItem> = [

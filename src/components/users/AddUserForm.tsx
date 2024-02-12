@@ -2,8 +2,9 @@ import { FC } from "react";
 import { Form, Input } from "antd";
 import { MaskedInput } from "antd-mask-input";
 import { FormInstance } from "antd/lib";
+import { addUser } from "../../services/api/userApi";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { UserListItem, addUser } from "../../services/api/userApi";
+import { UserListItem } from "../../models/UserListItem";
 import { phoneRegex, zipcodeRegex } from "../../constants/regex";
 
 

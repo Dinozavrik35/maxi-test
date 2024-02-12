@@ -1,15 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getRandomColor } from "../../utils/getRandomColor";
+import { UserListItem } from "../../models/UserListItem";
 import { UserDTO } from "../../models/UserDTO";
 
 
-export type UserListItem = { key: string; color: string } & Omit<
-    UserDTO,
-    "address" | "company" | "website"
-> & { zipcode?: string };
-
-const baseUrl =
-    process.env.REACT_APP_API_URL || "http://jsonplaceholder.typicode.com/";
+export const baseUrl =
+    process.env.REACT_APP_API_URL || "https://jsonplaceholder.typicode.com/";
 
 
 export const userApi = createApi({

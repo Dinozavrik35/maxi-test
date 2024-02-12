@@ -1,11 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { FilterField } from "../../models/FilterField";
 import { noLettersRegex } from "../../constants/regex";
 
 
-export type FilterFieldType = "name" | "email" | "phone";
-
 type UserSliceInitialState = {
-    filterField: FilterFieldType;
+    filterField: FilterField;
     filterValue: string;
     selectedRows: React.Key[];
 };
@@ -21,7 +20,7 @@ export const usersSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-        setFilterField: (state, action: PayloadAction<FilterFieldType>) => {
+        setFilterField: (state, action: PayloadAction<FilterField>) => {
             if (state.filterValue && state.selectedRows) {
                 state.selectedRows = [];
             }

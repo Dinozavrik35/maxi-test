@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { Table } from "antd";
-import { useGetUserListQuery } from "../../../services/api/userApi";
-import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
-import { setSelectedRows } from "../../../store/slices/usersSlice";
-import UserListSkeleton from "../UserListSkeleton";
-import { transformFilterValue } from "../../../utils/transformFilterValue";
 import UserActionBar from "../UserActionBar";
-import { StyledAntDAlert, StyledUserList } from "./userListStyles";
+import UserListSkeleton from "../UserListSkeleton";
 import { columns, tableSettings } from "./userListSettings";
+import { setSelectedRows } from "../../../store/slices/usersSlice";
+import { StyledAntDAlert, StyledUserList } from "./userListStyles";
+import { useGetUserListQuery } from "../../../services/api/userApi";
+import { transformFilterValue } from "../../../utils/transformFilterValue";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 
 
 const UserList: FC = () => {
@@ -51,7 +51,7 @@ const UserList: FC = () => {
 
             {error && (
                 <StyledAntDAlert
-                    message="500"
+                    message={'status' in error ? error.status : 'Error'}
                     description="Sorry, something went wrong. Please try again."
                     type="error"
                     showIcon
